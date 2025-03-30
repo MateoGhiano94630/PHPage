@@ -2,6 +2,14 @@
 
   require "database.php";
 
+  session_start();
+
+
+  if(!isset($_SESSION["user"])){
+    header("Location: login.php");
+    return;
+  }
+
   $id = $_GET["id"];
 
   $statement = $conn->prepare("SELECT * FROM contacts WHERE id = :id LIMIT 1");
@@ -14,6 +22,12 @@
   }
 
   $contact = $statement->fetch(PDO::FETCH_ASSOC);
+
+  if ($contact["user_id"] !== $_SESSION["user"]["id"]){
+    http_response_code(403); //tiramos un 403 no autorizado 
+    echo("HTTP 403 UNAUTHORIZED");
+    return;
+  }
 
   $error = null;
 
