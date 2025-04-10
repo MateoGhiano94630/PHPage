@@ -9,7 +9,7 @@ if(!isset($_SESSION["user"])){
   return;
 }
 
-$contacts = $conn->query("SELECT * FROM contacts");
+$contacts = $conn->query("SELECT * FROM contacts WHERE user_id = {$_SESSION['user']['id']}");
 
 ?>
 
@@ -33,6 +33,7 @@ $contacts = $conn->query("SELECT * FROM contacts");
               <p class="m-2"><?= $contact["phone_number"] ?></p>
               <a href="edit.php?id=<?= $contact["id"] ?>" class="btn btn-secondary mb-2">Edit Contact</a>
               <a href="delete.php?id=<?= $contact["id"] ?>" class="btn btn-danger mb-2">Delete Contact</a>
+              <a href="homeAdress.php?id=<?= $contact["id"] ?>" class="btn btn-secondary mb-2">Show Adresses</a>
             </div>
           </div>
         </div>

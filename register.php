@@ -22,6 +22,7 @@
         ->execute([
           ":name" => $_POST["name"],
           ":email" => $_POST["email"],
+          // encriptacion de password
           ":password" => password_hash($_POST["password"], PASSWORD_BCRYPT),
         ]);
 

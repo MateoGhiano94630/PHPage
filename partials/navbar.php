@@ -20,10 +20,14 @@
           <ul class="navbar-nav">
           <?php if (isset($_SESSION["user"])): ?>
               <li class="nav-item">
-                <a class="nav-link" href="#">Home</a>
+                <a class="nav-link" href="home.php">Home</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="add.php">Add Contact</a>
+              </li>
+              <!-- Agregamos el enlace a agregar direccion en el navbar -->
+              <li class="nav-item">
+                <a class="nav-link" href="newAdress.php">Add Adress</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="logout.php">Logout</a>
