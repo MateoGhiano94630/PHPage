@@ -4,7 +4,7 @@ require "database.php";
 
 session_start();
 
-
+//  Controlamos que la session haya hecho el login
 if(!isset($_SESSION["user"])){
   header("Location: login.php");
   return;
@@ -16,7 +16,7 @@ $statement = $conn->prepare("SELECT * FROM adress WHERE id = :id LIMIT 1");
 $statement->execute([":id" => $id]);
 $adress = $statement->fetch(PDO::FETCH_ASSOC);
 
-
+// En caso de que no se encuentre esa direccion para borrar 
 if ($statement->rowCount() == 0) {
   http_response_code(404);
   echo("HTTP 404 NOT FOUND");

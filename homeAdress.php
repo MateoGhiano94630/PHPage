@@ -19,7 +19,7 @@ $adress = $conn->query("SELECT * FROM adress WHERE contact_id = {$id}");
 <?php require "partials/header.php" ?>
   <div class="container pt-4 p-3">
     <div class="row">
-      
+      <!-- Controlamos que no se haya guardado ninguna direccion -->
       <?php if ($adress->rowCount() == 0): ?>
         <div class="col-md-4 mx-auto">
           <div class="card card-body text-center">
@@ -28,6 +28,7 @@ $adress = $conn->query("SELECT * FROM adress WHERE contact_id = {$id}");
           </div>
         </div>
       <?php endif ?>
+      <!-- Mostramos algunos datos significantes de la direccion -->
       <?php foreach ($adress as $ad): ?>
         <div class="col-md-4 mb-3">
           <div class="card text-center">

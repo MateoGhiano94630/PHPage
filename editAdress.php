@@ -44,7 +44,7 @@
   $stm = $conn->prepare("SELECT user_id FROM contacts WHERE id = :id LIMIT 1");
   $stm->execute([":id" => $contact_id]);
   $uid = $stm->fetch(PDO::FETCH_ASSOC);
-
+  // Controlamos que el usuario sea el correspondiente a editar ese contacto
   if ($uid["user_id"] !== $_SESSION["user"]["id"]){
     http_response_code(403); 
     echo("HTTP 403 UNAUTHORIZED");
@@ -71,16 +71,18 @@
       $floor = $_POST["floor"];
       $description = $_POST["description"];
       $contact_id = $_POST["contact_id"];
-      
+
+
+      var_dump($contact_id);
       // Preparamos la consulta de actualizacion
-      $statement = $conn->prepare("UPDATE adress SET tag = :tag, street = :street, num = :num, departament = :departament, floor = :floor, city = :city, country_state = :country_state, country = :country, zip = :zip,contact_id = :contact_id, description = :description where id = :id;");
+      $statement = $conn->prepare("UPDATE adress SET tag = :tag, street = :street, num = :num, departament = :departament, floor = :floor, city = :city, country_state = :country_state, country = :country, zip = :zip, contact_id = :contact_id, description = :description where id = :id;");
       $statement->execute([
         ":id" => $id,
         ":tag" => $tag,
         ":street" => $street,
         ":num" => $num,
         ":departament" => $departament,
-        "contact_id" => $contact_id,
+        ":contact_id" => $contact_id,
         ":floor" => $floor,
         ":city" => $city,
         ":country_state" => $state,
@@ -115,8 +117,10 @@
                   <div class="col-auto my-1">
                     <label class="mr-sm-2" for="inlineFormCustomSelect">Choose your contact...</label>
                     <select class="custom-select mr-sm-2" id="contact_id" name="contact_id">
-                      <option selected><?=$selected_contact['name']?></option>
+                    <!-- Muestro el contacto que actualmente tiene la direccion   -->
+                    <option selected value=<?=$selected_contact['id']?>><?=$selected_contact['name']?></option>
                       <?php foreach ($other_contacts as $contact): ?>
+                      <!-- Le doy la oportunidad de cambiar el contacto -->
                       <option value=<?=$contact['id']?>><?=$contact['name']?></option>
                       <?php endforeach ?>
                     </select>

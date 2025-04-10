@@ -4,18 +4,20 @@
 
   session_start();
   
+  // En caso de que quiera ingresar y la session no haya hecho el login
   if(!isset($_SESSION["user"])){
     header("Location: login.php");
     return;
   }
 
   $error = null;
-
+    
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-      if (empty($_POST["city"]) || empty($_POST["country_state"]) || empty($_POST["country"]) || empty($_POST["zip"])) {
+      if (empty($_POST["tag"]) ||empty($_POST["street"]) ||empty($_POST["number"])||empty($_POST["departament"])||empty($_POST["floor"]) || empty($_POST["city"]) || empty($_POST["country_state"]) || empty($_POST["country"]) || empty($_POST["zip"])) {
         $error = "Please fill all the fields.";
        }  
        else {
+        // Definimos las variables a insertar
         $tag = $_POST['tag'];
         $street = $_POST['street'];
         $num = $_POST['number'];
@@ -27,6 +29,7 @@
         $zip = $_POST["zip"];
 
 
+        // Insertamos las variables con el contenido 
         $statement = $conn->prepare("INSERT INTO adress (tag, street, num, departament, floor, city, country_state, country, zip, contact_id, description) VALUES (:tag, :street, :num, :departament, :floor, :city, :country_state, :country, :zip, :contact_id, :description )");
         $statement->bindParam(":tag", $_POST["tag"]);
         $statement->bindParam(":street", $_POST["street"]);
@@ -69,6 +72,7 @@
                   <label class="mr-sm-2" for="inlineFormCustomSelect">Choose your contact...</label>
                   <select class="custom-select mr-sm-2" id="id" name="id">
                     <option selected></option>
+                    <!-- Mostratmos los posibles contactos a los cuales asignar la variables -->
                     <?php foreach ($contacts as $contact): ?>
                     <option value=<?=$contact['id']?>><?=$contact['name']?></option>
                     <?php endforeach ?>

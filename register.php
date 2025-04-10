@@ -5,8 +5,10 @@
   $error = null;
 
   if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Validacion de campos vacios
     if (empty($_POST["name"]) || empty($_POST["email"]) || empty($_POST["password"])){
       $error = "Please fill all the fields.";
+      // Validacion de uso de arroba
     } else if (!str_contains($_POST["email"], "@")){
       $error = "Email format is incorrect.";
     }  else {
@@ -14,6 +16,7 @@
       $statement->bindParam(":email", $_POST["email"]);
       $statement->execute();
 
+      // Email ya registrado
       if($statement->rowCount() > 0){
         $error = "This email is already taken.";
       } else {
@@ -25,7 +28,7 @@
           // encriptacion de password
           ":password" => password_hash($_POST["password"], PASSWORD_BCRYPT),
         ]);
-
+        
         $statement = $conn->prepare("SELECT * FROM users WHERE email = :email LIMIT 1 ");
         $statement->bindParam(":email", $_POST["email"]);
         $statement->execute();
